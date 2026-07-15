@@ -1,14 +1,14 @@
 #ifndef _QTABLE_HPP
 #define _QTABLE_HPP
 
-#define REWARD_BIG 1000        // speed and compaction is good
-#define REWARD_MEDIUM 200      // compaction is used great
-#define REWARD_SMALL 100        // compaction is good but speed is bad
+#define REWARD_BIG 1000
+#define REWARD_MEDIUM 300
+#define REWARD_SMALL 100
 #define REWARD_TINY 50
 
-#define PUNISHMENT_BIG -500    // neither speed nor compaction are good
-#define PUNISHMENT_MEDIUM -100 // unnecessary compaction
-#define PUNISHMENT_SMALL -50   // speed is good but compaction is bad
+#define PUNISHMENT_BIG -1000
+#define PUNISHMENT_MEDIUM -250
+#define PUNISHMENT_SMALL -50
 
 // STATES
 #define REQUEST_SIZE_CLASS  4  // TINY, SMALL, MEDIUM, LARGE
@@ -44,6 +44,32 @@ enum Action
     CHANGE_CORE_AFFINITY
 };
 
-float Q[STATE_COUNT][ACTION_COUNT];
+typedef struct
+{
+    int req_size;
+    int frag;
+    int util;
+    int hist;
+    int free_blk;
+    int pages;
+    int cpu;
+    float fragmentation;
+    float latency_ns;
+    bool compaction_used;
+} SimulationState;
+
+static float Q[STATE_COUNT][ACTION_COUNT];
+
+int get_state_index(int req_size, int frag, int util, int hist, int free_blk, int pages, int cpu);
+int select_action(int state, float epsilon);
+void update_q_table(int state, int action, float reward, int next_state, float alpha, float gamma);
+void train_q_table();
+void save_q_table(const char* filename);
+void simulate_action(int action, float *reward, int *next_state);
+void init_simulation();
+float calculate_reward(float fragmentation, float latency_ns, bool compaction_used);
+int get_random_state();
+void load_q_table(const char* filename);
+
 
 #endif // _QTABLE_HPP

@@ -7,7 +7,8 @@
 
 // SIZE DEFINITIONS
 #define ONE_KB 1024
-#define ONE_MB (ONE_KB * ONE_KB)
+#define ONE_MB (1024 * ONE_KB)
+#define ONE_GB (1024 * ONE_MB)
 #define MAX_SLOTS 65536 // 2MB Huge page can handle maximum 65536 slots (one slot 32 bytes)
 #define SLOT_SIZE 32    // Bytes
 
