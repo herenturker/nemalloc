@@ -1,12 +1,31 @@
+// ============================================================
+// helper.hpp
+// ============================================================
 #ifndef _HELPER_HPP
 #define _HELPER_HPP
+
+#include <stddef.h> 
+#include <stdint.h>
+
+#ifdef __nonnull
+#undef __nonnull
+#endif
+#define __nonnull(pos) __attribute__((__nonnull__ pos))
+
+#ifdef __always_inline
+#undef __always_inline
+#endif
+#ifdef __cplusplus
+#define __always_inline inline __attribute__((__always_inline__))
+#else
+#define __always_inline inline __attribute__((__always_inline__))
+#endif
 
 #define likely(x) __builtin_expect(!!(x), 1)
 #define unlikely(x) __builtin_expect(!!(x), 0)
 #define __malloc_like __attribute__((__malloc__))
 #define __pure __attribute__((__pure__))
 #define __const_func __attribute__((__const__))
-#define __nonnull(pos) __attribute__((__nonnull__ pos))
 #define __unused __attribute__((__unused__))
 #define __deprecated __attribute__((__deprecated__))
 
@@ -20,9 +39,14 @@
 #define __aligned(x) __attribute__((__aligned__(x)))
 #define __noreturn __attribute__((__noreturn__))
 #define __must_check __attribute__((__warn_unused_result__))
-#define __always_inline __attribute__((__always_inline__)) static inline
+
 #define ALIGN_UP(addr, align) (((addr) + (align) - 1) & ~((align) - 1))
 #define ALIGN_DOWN(addr, align) ((addr) & ~((align) - 1))
+
+#ifndef PAGE_SIZE
+#define PAGE_SIZE 4096
+#endif
+
 #define PAGE_ALIGN_UP(addr) ALIGN_UP(addr, PAGE_SIZE)
 #define PAGE_ALIGN_DOWN(addr) ALIGN_DOWN(addr, PAGE_SIZE)
 

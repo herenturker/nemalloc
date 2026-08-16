@@ -4,7 +4,8 @@
 #include "types.hpp"
 
 handle_t nemalloc(size_t size);
-void nefree(handle_t handle);
-void* get_ptr(handle_t handle);
+void nefree(handle_t handle) noexcept;
+void* get_ptr(handle_t handle) noexcept;
+void init_thread_cache();
 
-#endif // _NEMALLOC_HPP
+#endif
