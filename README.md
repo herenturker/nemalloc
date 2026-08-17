@@ -16,9 +16,7 @@ Note: This is an experimental project. It is not production-ready, but serves as
 ## REPOSITORY STRUCTURE
 ```
 nemalloc/
-├── Attachments/               # Pre-built binaries and assembly output
-│   ├── libnemalloc.so         # Compiled shared library (ready for LD_PRELOAD)
-│   └── libnemalloc.asm        # Disassembly of the library
+│
 ├── source/                    # Core implementation
 │   ├── include/               # Header files
 │   │   ├── compaction.hpp
